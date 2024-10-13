@@ -4,7 +4,7 @@
 
 ### Feature: Creating a subject
 
-A study branch coordinator needs to be able to add new subjects that are taught at
+As a study branch coordinator, I need to add new subjects that are taught at
 the faculty and information about them to the system.
 
 #### Feature breakdown
@@ -14,13 +14,13 @@ the faculty and information about them to the system.
 3. The user clicks on "Create new subject" button that is only visible
     to the study branch coordinator.
 4. A form shows up. The user fills in:
-   - Subject code
-   - Subject name
-   - Subject description
-   - Subject syllabus
-   - Conditions for passing the subject
-   - Number of credits for the subject
-   - Number of hours for lectures and number of hours for tutorials
+   - subject code
+   - subject name
+   - subject description
+   - subject syllabus
+   - conditions for passing the subject
+   - number of credits for the subject
+   - number of hours for lectures and number of hours for tutorials
 5. In the form, the user selects the garant of the subject from a dropdown
    with all teacher names.
 6. For every prerequisite/corequisite of the subject, the user clicks on
@@ -37,19 +37,19 @@ the faculty and information about them to the system.
 
 ##### Authorization responsibilities
 
-- Check if the current user is a study branch coordinator
+- Check if the current user is a study branch coordinator.
 
 ##### Form editing responsibilities
 
-- Display a subject creation form
-- Fetch a list of teachers
-- Fetch a list of subjects
+- Display a subject creation form.
+- Fetch a list of teachers.
+- Fetch a list of subjects.
 
 ##### Subject validation responsibilities
 
-- Check if all fields are filled in
-- Check if a subject with the same code exists
+- Check if all fields are filled in.
+- Check if a subject with the same code exists.
 
 ##### Subject creation responsibilities
 
-- Store the new subject information
+- Store the new subject information.
