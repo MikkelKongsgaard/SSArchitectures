@@ -8,7 +8,7 @@ As a logged-in user, I want to be able to view a schedule for a subject based on
 
 #### Feature breakdown
 
-1. User clicks on the Subjects module on the main page of SIS.
+1. User opens dashboard and clicks on the 'Subjects' button.
 2. The system displays a form where subject name can be entered.
 3. User types in the name of the subject to the given field and clicks the Search button.
 4. Page with information about desired subject is displayed by the system.
@@ -22,7 +22,7 @@ As a logged-in user, I want to be able to view a schedule for a subject based on
 * Ensure that the input given to the Subject name field does not allow any security risk.
 * Display an error message to the user if the subject with given name is not found.
 
-##### Security responsibilities
+##### Authorization responsibilities
 
 * Ensure that only logged-in users can access provided information.
 
