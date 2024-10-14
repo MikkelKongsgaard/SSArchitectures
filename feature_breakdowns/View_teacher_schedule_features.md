@@ -9,27 +9,22 @@ As a logged-in user, I want to view my schedule for the current week to plan my 
 
 #### Feature breakdown
 
-1. The user logs in to SIS and navigates to the Teacher Schedule module from the main page.
-2. The system displays a dashboard with a "View Schedule" button.
-3. The user clicks the "View Schedule" button.
+1. A teacher opens the dashboard and clicks on "Teacher schedule" button.
+2. The system displays a dashboard with a "View schedule" button.
+3. The user clicks the "View schedule" button.
 4. The system fetches the schedule for the logged-in teacher from the database for the current weak.
 5. A table with the teacher's schedule (including lectures and labs hosted by the teacher) for the current week is displayed.
 6. The teacher can navigate between weeks using buttons for "Next week" or "Previous week" to view past or future schedules.
 
 #### Responsibilities
 
-#### User input validation responsibilities
+##### Authorization responsibilities
 
-* Ensure that only logged-in teacher's ID is used to retrieve their schedule.
-* Prevent unauthorized users from viewing other teacher's schedules.
-
-#### Security responsibilities
-
-* Ensure that only authenticated and authorized users have access.
+* Ensure that only authenticated and authorized teachers are able to view their own schedule.
 
 ##### Student data access responsibilities
 
-* Collect teachers schedule data  based on the logged-in user's ID.
+* Collect teachers schedule data based on the logged-in user's ID.
 
 ##### Schedule displaying responsibilities
 

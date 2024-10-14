@@ -8,7 +8,7 @@ As a logged-in user, I want to be able to view a schedule for a subject based on
 
 #### Feature breakdown
 
-1. User opens dashboard and clicks on the 'Subjects' button.
+1. User opens dashboard and clicks on the "Subjects" button.
 2. The system displays a form where subject name can be entered.
 3. User types in the name of the subject to the given field and clicks the Search button.
 4. Page with information about desired subject is displayed by the system.

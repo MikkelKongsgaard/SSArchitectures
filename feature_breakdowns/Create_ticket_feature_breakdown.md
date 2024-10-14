@@ -15,47 +15,57 @@
   </span>
 </details>
 
+<!--
 <details>
   <summary><strong>What is a tickets pack?</strong></summary>
   <span style="color:gray">
     For a given subject, there is an organized data structure with tickets. A pack is separated into different events like lectures, practices.... Each event includes tickets, which number can be limited for given event.
   </span>
 </details>
+-->
 
-As a teacher I want to be able to create tickets for my subjects, with some basic info. I want to be able to set some maximum capacity that when it is reached, the ticket can't be created anymore by students.
-
-As a student when I enroll into an subject, I want to be able to pick the concreate lecture that I will be attending.
+As a scheduling committee member I want to be able to create tickets for my subjects, with some basic info. I want to be able to set some maximum capacity that when it is reached, the ticket can't be chosen by students anymore.
 
 #### Feature breakdown
 
-Issuing Tickets:
-
-1. There is a **Management tab** on dashboard only visible/accessible for *manager and study department officer*.
-2. The *manager and study department officer* can use this tab to issue **tickets pack for given subject** including lectures with given time, room... (more in [What is a ticket?](https://github.com/MikkelKongsgaard/SSArchitectures/new/main/feature_breakdowns#feature-creating-a-ticket)).
-3. They can also limit the number of tickets being issued for a tickets pack events.
-
-Getting tickets:
-
-1. There is a **Tickets selection tab** in the Schedule tab on dashboard. There *students* can request a ticket for subjects, they are enrolled to.
-2. If there still are tickets for given subject, a ticket from the subject's ticket pack event is granted, otherwise it is denied.
-3. In granting, the ticket is included to the accounts data.
+1. A scheduling comittee member ("user") opens the dashboard and clicks on "Ticket Management" button only visible/accessible for *scheduling comittee members*.
+2. The user clicks on "Create a new ticket" button.
+3. A list of all subjects together with their codes is displayed.
+4. The user clicks on the subject for which they want to create a ticket.
+5. A form is displayed. The user fills in:
+   - day of the week
+   - start time
+   - type (lecture/tutorial)
+   - capacity (number of students allowed to select the ticket)
+6. In the form, the user selects a teacher of the subject from
+   a dropdown of all teacher names and the room from the list
+   of all rooms.
+7. The user fills in the form and then clicks on a "Create ticket" button.
+8. The validity of the ticket scheduling is checked.
+9. If the scheduling is valid, the ticket is created in the system
+   and a success message is shown to the user.
+10. If the scheduling is invalid, an error message describing the
+   problem is shown to the user.
 
 #### Responsibilities
 
-##### Creating a ticket pack responsibilities
+##### Authorization responsibilities
 
-* Ticket packs can be created by given roles.
+* Ensure that only authorized scheduling comittee members can create tickets.
 
-##### Ticket packs persistence responsibilities
+##### Form editing responsibilities
 
-* The created ticket packs are added to a storage.
-* There Packs can be modified, deleted, added.
+* Display a ticket editing form.
+* Allow picking a day of the week.
+* Allow picking a time.
+* Fetch a list of all teachers.
+* Fetch a list of all rooms.
 
-##### Ticket requests responsibilities
+##### Ticket scheduling validation responsibilities
 
-* Certain users can create a request for a ticket in given subject.
+* Check that the room is empty at the given time.
+* Check that the teacher does not teach another class at the same time.
 
-##### Ticket requests resolution responsibilities
+##### Ticket persistence responsibilities
 
-* Request ticket for given subject.
-* Request is evaluated based on its validity and restrictions of the tickets count.
+* The created ticket is added to a storage.
