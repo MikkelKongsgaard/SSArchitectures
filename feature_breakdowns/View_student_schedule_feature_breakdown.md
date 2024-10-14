@@ -8,7 +8,7 @@ As a logged-in user, I want to view my schedule for the current week to plan my 
 
 #### Feature breakdown
 
-1. The user logs in to SIS and navigates to the Student Schedule module from the main page.
+1. The user logs in to the system and navigates to the Student Schedule module from the main page.
 2. The system displays a dashboard with a "View Schedule" button.
 3. The user clicks the "View Schedule" button.
 4. The system fetches the schedule for the logged-in student from the database for the current weak.
@@ -19,10 +19,10 @@ As a logged-in user, I want to view my schedule for the current week to plan my 
 
 ##### User input validation responsibilities
 
-* Ensure that only logged-in student's ID is used to retrieve their schedule.
+* Ensure that only logged-in student's schedule is retrieved.
 * Prevent unauthorized users from viewing other students' schedules.
 
-##### Security responsibilities
+##### Authorization responsibilities
 
 * Ensure that only authenticated and authorized users have access.
 
