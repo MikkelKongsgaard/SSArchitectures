@@ -15,15 +15,29 @@ workspace {
                 
             }
             modf = container "Schedule Modification" "Provides services for modifying scheduling" {
-                
+                group "Presentation layer" {
+                    modifyScheduleHTML = component "Modify schedule HTML" "" "" "Web Front-End"
+                }
+                group "Business layer" {
+                    modifyScheduleValidator = component "Modify schedule validator" "" "" "Component element"
+                    modifySubjectController = component "Modify subject controller" "" "" "Component element"
+                }
             }
-            persist = container "Persistence" "Takes care of application state persistence" "Database" {
-                
+            persist = container "Persistence" "Takes care of application state persistence" {
+                group "Persistence layer" {
+                    database = component "Database" "Stores all the data at one place" "" "Database"
+                }
+                group "Business layer" {
+                    ticketsRepository = component "Tickets repository" "" "" "Component element"
+                    reservationsRepository = component "Reservations repository" "" "" "Component element"
+                    subjectsRepository = component "Subjects repository" "" "" "Component element"
+                    roomsRepository = component "Roooms repository" "" "" "Component element"
+                }
             }
         }
 
         viewing -> persist ""
-        modf -> persist ""
+        modf -> persist "Requests data and data modifications"
         viewing -> enrollmentModule ""
         modf -> peopleModule ""
 
@@ -37,6 +51,17 @@ workspace {
         manager -> modf "Change schedule state"
         schedulingCommitteeMember -> modf "Change schedule state"
         student -> viewing "view my schedule"
+
+        modifyScheduleHTML -> modifySubjectController "Sends requests to"
+        modifySubjectController -> modifyScheduleHTML "Delivers content to"
+        modifySubjectController -> modifyScheduleValidator "Request validation"
+        modifyScheduleValidator -> persist "Request data to validate subject modification"
+        modifySubjectController -> persist "Request schedule change"
+
+        roomsRepository -> database "Gets rooms"
+        subjectsRepository -> database "Gets subjects"
+        reservationsRepository -> database "Gets reservations"
+        ticketsRepository -> database "Gets tickets"
     }
 
     views {
@@ -70,12 +95,25 @@ workspace {
                 shape RoundedBox
             }
 
+            element "Component element" {
+                background "#90d5ff"
+                shape RoundedBox
+            }
+
             element "External System" {
                 background "#aaaaaa"
             }
 
             element "Person" {
                 shape person
+            }
+
+            element "Web Front-End"  {
+                shape WebBrowser
+            }
+
+            element "Database"  {
+                shape Cylinder
             }
         }
     }
