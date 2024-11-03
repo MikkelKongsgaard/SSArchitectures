@@ -12,7 +12,10 @@ workspace {
         
         schedulingModule = softwareSystem "Scheduling Module" "Responsible for managing subjects, schedules and room reservations" {
             viewing = container "ScheduleViewing" "Provides services for viewing schedules" {
-                
+                validator = component "Validator" "Validates schedule data"
+                userVerification = component "User Verification" "Verifies user identity"
+                scheduleRetrievalService = component "Schedule Retrieval Service" "Retrieves schedule data"
+                loader = component "Loader" "Loads schedule data"
             }
             modf = container "Schedule Modification" "Provides services for modifying scheduling" {
                 group "Presentation layer" {
@@ -62,6 +65,13 @@ workspace {
         subjectsRepository -> database "Gets subjects"
         reservationsRepository -> database "Gets reservations"
         ticketsRepository -> database "Gets tickets"
+
+        # components for schedule viewing
+        student -> userVerification "Login"
+        scheduleRetrievalService -> persist "Fetches data"
+        userVerification -> scheduleRetrievalService "Passes request"
+        scheduleRetrievalService -> validator "passes data"
+        validator -> loader "Passes schedule data"
     }
 
     views {
@@ -77,7 +87,7 @@ workspace {
         
         component viewing {
             include *
-            autoLayout tb 
+            autoLayout lr 
         }
         component modf {
             include *
