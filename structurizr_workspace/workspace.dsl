@@ -67,6 +67,7 @@ workspace {
         ticketsRepository -> database "Gets tickets"
 
         # components for schedule viewing
+        teacher -> userVerification "Login"
         student -> userVerification "Login"
         scheduleRetrievalService -> persist "Fetches data"
         userVerification -> scheduleRetrievalService "Passes request"
