@@ -11,55 +11,84 @@ workspace {
         }
         
         schedulingModule = softwareSystem "Scheduling Module" "Responsible for managing subjects, schedules and room reservations" {
-            viewing = container "ScheduleViewing" "Provides services for viewing schedules" {
-                validator = component "Validator" "Validates schedule data"
-                userVerification = component "User Verification" "Verifies user identity"
-                scheduleRetrievalService = component "Schedule Retrieval Service" "Retrieves schedule data"
-                loader = component "Loader" "Loads schedule data"
-            }
-            modf = container "Schedule Modification" "Provides services for modifying scheduling" {
-                group "Presentation layer" {
-                    modifyScheduleHTML = component "Modify schedule HTML" "" "" "Web Front-End"
+            group "Application Presentaoitn" {
+                webapp = container "Web Application" "Deliveres the Single page app" "lightweight HTTP server" {
+                    
                 }
-                group "Business layer" {
-                    modifyScheduleValidator = component "Modify schedule validator" "" "" "Component element"
-                    modifySubjectController = component "Modify subject controller" "" "" "Component element"
+                singleP = container "Single-Page Application" "Provides Schedule functionality to User" "client-side HTML page" {
+                    
                 }
             }
-            persist = container "Persistence" "Takes care of application state persistence" {
-                group "Persistence layer" {
-                    database = component "Database" "Stores all the data at one place" "" "Database"
-                }
-                group "Business layer" {
-                    ticketsRepository = component "Tickets repository" "" "" "Component element"
-                    reservationsRepository = component "Reservations repository" "" "" "Component element"
+            group "Microservices" {
+                ServiceSubj = container "Subject Service" "" {
+                    subjectController = component "Subjects Controller" ""
+                    subjectValidator = component "Validator" 
+                    subjectVerification = component "User Verification" "Verifies user identity"
                     subjectsRepository = component "Subjects repository" "" "" "Component element"
+                }
+                ServiceTickets = container "Tickets Service" "" {
+                    ticketController = component "Tickets Controller" ""
+                    ticketValidator = component "Validator"
+                    ticketVerification = component "User Verification" "Verifies user identity"
+                    ticketsRepository = component "Tickets repository" "" "" "Component element"
+                }
+                ServiceReserv = container "Reservations Service" "" {
+                    reservController = component "Reservation Retrieval Controller" ""
+                    reservValidator = component "Validator" 
+                    reservVerification = component "User Verification" "Verifies user identity"
+                    reservationsRepository = component "Reservations repository" "" "" "Component element"
+                }
+                ServiceRooms = container "Rooms Service" "" {
+                    roomController = component "Room Controller" ""
+                    roomValidator = component "Validator"
+                    roomVerification = component "User Verification" "Verifies user identity"
                     roomsRepository = component "Roooms repository" "" "" "Component element"
                 }
+                
+                ServiceSchedual = container "Schedule Service" "Provides services for viewing schedules" {
+                    schedualController = component "Schedule Retrieval Controller" ""
+                    schedualValidator = component "Validator"
+                    schedualVerification = component "User Verification" "Verifies user identity"
+                    schedualLoader = component "Loader" "Loads schedule data"
+                }
             }
+            database = container "Database" "Stores all the data at one place" "" "Database"
         }
 
-        viewing -> persist ""
-        modf -> persist "Requests data and data modifications"
-        viewing -> enrollmentModule ""
-        modf -> peopleModule ""
+        webapp -> singleP "Delivers the Single-page to user"
+        
+        singleP -> subjectController "API call" "JSON/HTTPS"
+        singleP -> ticketController "API call" "JSON/HTTPS"
+        singleP -> reservController "API call" "JSON/HTTPS"
+        singleP -> roomController "API call" "JSON/HTTPS"
+        singleP -> schedualController "API call" "JSON/HTTPS"
 
-        student = person "Student"
-        teacher = person "Teacher"
-        manager = person "Manager"
-        schedulingCommitteeMember = person "Scheduling Committee Member"
+        schedualController -> enrollmentModule ""
+        ticketController -> peopleModule ""
 
-        teacher -> modf "Change schedule state"
-        teacher -> viewing "view my schedule"
-        manager -> modf "Change schedule state"
-        schedulingCommitteeMember -> modf "Change schedule state"
-        student -> viewing "view my schedule"
+        group "Users" {
+            student = person "Student"
+            teacher = person "Teacher"
+            manager = person "Manager"
+            schedulingCommitteeMember = person "Scheduling Committee Member"
+        }
+        
+        student -> webapp "visit domain" "HTTPS"
+        teacher -> webapp "visit domain" "HTTPS"
+        manager -> webapp "visit domain" "HTTPS"
+        schedulingCommitteeMember -> webapp "visit domain" "HTTPS"
 
-        modifyScheduleHTML -> modifySubjectController "Sends requests to"
-        modifySubjectController -> modifyScheduleHTML "Delivers content to"
-        modifySubjectController -> modifyScheduleValidator "Request validation"
-        modifyScheduleValidator -> persist "Request data to validate subject modification"
-        modifySubjectController -> persist "Request schedule change"
+        teacher -> singleP "Change schedule state"
+        teacher -> singleP "view my schedule"
+        manager -> singleP "Change schedule state"
+        schedulingCommitteeMember -> singleP "Change schedule state"
+        student -> singleP "view my schedule"
+
+        teacher -> singleP ""
+        manager -> singleP ""
+        schedulingCommitteeMember -> singleP ""
+        # modifySubjectController -> modifyScheduleHTML "Delivers content to"
+        # modifySubjectController -> modifyScheduleValidator "Request validation"
 
         roomsRepository -> database "Gets rooms"
         subjectsRepository -> database "Gets subjects"
@@ -67,12 +96,25 @@ workspace {
         ticketsRepository -> database "Gets tickets"
 
         # components for schedule viewing
-        teacher -> userVerification "Login"
-        student -> userVerification "Login"
-        scheduleRetrievalService -> persist "Fetches data"
-        userVerification -> scheduleRetrievalService "Passes request"
-        scheduleRetrievalService -> validator "passes data"
-        validator -> loader "Passes schedule data"
+        schedualController -> schedualValidator ""
+        schedualController -> schedualVerification ""
+        schedualController -> schedualLoader ""
+        
+        roomController -> roomValidator ""
+        roomController -> roomVerification ""
+        roomController -> roomsRepository ""
+        
+        reservController -> reservValidator ""
+        reservController -> reservVerification ""
+        reservController -> reservationsRepository ""
+        
+        ticketController -> ticketValidator ""
+        ticketController -> ticketVerification ""
+        ticketController -> ticketsRepository ""
+        
+        subjectController -> subjectValidator ""
+        subjectController -> subjectVerification ""
+        subjectController -> subjectsRepository ""
     }
 
     views {
@@ -86,17 +128,25 @@ workspace {
             autoLayout tb 
         }
         
-        component viewing {
+        component ServiceSubj {
             include *
-            autoLayout lr 
+            autoLayout tb
         }
-        component modf {
+        component ServiceTickets {
             include *
-            autoLayout tb 
+            autoLayout tb
         }
-        component persist {
+        component ServiceReserv {
             include *
-            autoLayout tb 
+            autoLayout tb
+        }
+        component ServiceRooms {
+            include *
+            autoLayout tb
+        }
+        component ServiceSchedual {
+            include *
+            autoLayout tb
         }
 
         styles {
