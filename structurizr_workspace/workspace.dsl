@@ -387,5 +387,63 @@ workspace {
 
             autoLayout
         }
+
+        dynamic schedulingModule {
+            title "Dynamic Diagram of Viewing student schedule"
+            description "Shows the process for a student to view his/her schedule and plan activities accordingly"
+
+            student -> webapp "Accesses student schedule functionality"
+            webapp -> singleP "Loads Single-Page Application"
+            student -> singleP "Opens student schedule page"
+            singleP -> ServiceSchedule "Requests schedule data for the student"
+            ServiceSchedule -> enrollmentModule "Retrieves student's enrolled subjects/tickets"
+            ServiceSchedule -> ServiceTickets "Fetches relevant ticket details"
+            ServiceTickets -> ticketsDatabase "Queries for ticket data"
+            ticketsDatabase -> ServiceTickets "Returns ticket data"
+            ServiceSchedule -> singleP "Returns student's schedule data"
+            singleP -> student "Displays schedule to the user"
+
+            autoLayout
+        }
+
+        dynamic schedulingModule {
+            title "Dynamic Diagram of Viewing subject schedule"
+            description "Shows the process for a student to view a subject's schedule."
+
+            student -> webapp "Accesses Subjects functionality via dashboard"
+            webapp -> singleP "Loads Single-Page Application"
+            singleP -> ServiceSubj "Sends request to search for a subject by name"
+            ServiceSubj -> subjectsDatabase "Queries for subject details"
+            subjectsDatabase -> ServiceSubj "Returns subject data"
+            ServiceSubj -> singleP "Returns subject details to display"
+            student -> singleP "User clicks 'View Schedule' button for the subject"
+            singleP -> ServiceSchedule "Requests schedule for the selected subject"
+            ServiceSchedule -> ServiceTickets "Fetches tickets related to the subject"
+            ServiceTickets -> ticketsDatabase "Queries for ticket data"
+            ticketsDatabase -> ServiceTickets "Returns ticket data"
+            ServiceTickets -> ServiceSchedule "Returns ticket data"
+            ServiceSchedule -> singleP "Returns schedule data for the subject"
+            singleP -> student "Displays schedule table with navigation options for weeks"
+
+            autoLayout
+        }
+
+        dynamic schedulingModule {
+            title "Dynamic Diagram of Viewing teacher schedule"
+            description "Shows the process for a teacher to view their weekly schedule."
+
+            teacher -> webapp "Accesses 'Teacher Schedule' functionality via dashboard"
+            webapp -> singleP "Loads Single-Page Application"
+            teacher -> singleP "Opens teacher schedule page"
+            singleP -> ServiceSchedule "Requests teacher's schedule for the current week"
+            ServiceSchedule -> ServiceTickets "Fetches tickets associated with teacher"
+            ServiceTickets -> ticketsDatabase "Queries for ticket data based on teacher ID"
+            ticketsDatabase -> ServiceTickets "Returns ticket data"
+            ServiceTickets -> ServiceSchedule "Returns schedule data"
+            ServiceSchedule -> singleP "Returns teacher's schedule data"
+            singleP -> teacher "Displays schedule table with navigation options for weeks"
+
+            autoLayout
+        }       
     }
 }
