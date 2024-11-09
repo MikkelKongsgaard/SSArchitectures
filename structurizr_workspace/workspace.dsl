@@ -318,5 +318,26 @@ workspace {
                 shape Cylinder
             }
         }
+
+        dynamic schedulingModule {
+            title "Dynamic diagram of Create a room reservation feature"
+            description "Shows the sequence of interactions for creating a reservation for room."
+
+            teacher -> webapp "Visits Room reservation module"
+            webapp -> singleP "Delivers the single page application"
+            singleP -> teacher "Shows room reservation form"
+            teacher -> singleP "Sends filled form"
+            singleP -> ServiceReserv "Sends reservation request"
+            ServiceReserv -> ServiceRooms "Requests room validity"
+            ServiceRooms -> ServiceReserv "Returns if room is valid"
+            ServiceReserv -> ServiceTickets "Requests conflicting tickets"
+            ServiceTickets -> ServiceReserv "Returns conflicting tickets" 
+            ServiceReserv -> reservationsDatabase "Gets conflicting reservations or add reservation to the database"
+            reservationsDatabase -> ServiceReserv "Returns whether the reservation was made or conflicts"
+            ServiceReserv -> singleP "Sends response to display"
+            singleP -> teacher "Shows whether the reservation was made successfully, mistakes or conflicting reservations"
+
+            autoLayout
+        }
     }
 }
