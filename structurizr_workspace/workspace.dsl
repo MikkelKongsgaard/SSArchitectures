@@ -324,18 +324,66 @@ workspace {
             description "Shows the sequence of interactions for creating a reservation for room."
 
             teacher -> webapp "Visits Room reservation module"
-            webapp -> singleP "Delivers the single page application"
-            singleP -> teacher "Shows room reservation form"
-            teacher -> singleP "Sends filled form"
+            webapp -> singleP "Delivers the single-page application"
+            singleP -> teacher "Displays room reservation form"
+            teacher -> singleP "Submits filled form"
             singleP -> ServiceReserv "Sends reservation request"
             ServiceReserv -> ServiceRooms "Requests room validity"
             ServiceRooms -> ServiceReserv "Returns if room is valid"
             ServiceReserv -> ServiceTickets "Requests conflicting tickets"
             ServiceTickets -> ServiceReserv "Returns conflicting tickets" 
-            ServiceReserv -> reservationsDatabase "Gets conflicting reservations or add reservation to the database"
-            reservationsDatabase -> ServiceReserv "Returns whether the reservation was made or conflicts"
+            ServiceReserv -> reservationsDatabase "Retrieves conflicting reservations or adds reservation to the database"
+            reservationsDatabase -> ServiceReserv "Returns whether the reservation was made or if there are conflicts"
             ServiceReserv -> singleP "Sends response to display"
-            singleP -> teacher "Shows whether the reservation was made successfully, mistakes or conflicting reservations"
+            singleP -> teacher "Shows whether the reservation was made successfully, errors or conflicting reservations"
+
+            autoLayout
+        }
+
+        dynamic schedulingModule {
+            title "Dynamic diagram of Create a subject feature"
+            description "Shows the sequence of interactions for creating a new subject."
+
+            manager -> webapp "Visits Subject creation module"
+            webapp -> singleP "Delivers the single-page application"
+            singleP -> ServiceSubj "Request subject list to display for prerequisites/corequisities"
+            ServiceSubj -> singleP "Sends list of subjects"
+            singleP -> manager "Displays subject creation form"
+            manager -> singleP "Submits filled form"
+            ServiceSubj -> peopleModule "Requests data to validate filled values"
+            peopleModule -> ServiceSubj "Returns whether the validation was successful"
+            ServiceSubj -> subjectsDatabase "Adds new subject to database if validation was successful"
+            ServiceSubj -> singleP "Sends response to display to user"
+            singleP -> manager "Shows whether the creation was successful or where it failed"
+
+            autoLayout
+        }
+
+        dynamic schedulingModule {
+            title "Dynamic diagram of Creating a ticket feature"
+            description "Shows the sequence of interactions for creating a new ticket."
+
+            schedulingCommitteeMember -> webapp "Visits Ticket creation module"
+            webapp -> singleP "Delivers the single-page application"
+            singleP -> ServiceSubj "Requests list of subjects to display"
+            ServiceSubj -> singleP "Returns list of all subjects"
+            singleP -> schedulingCommitteeMember "Displays all subjects to choose from"
+            schedulingCommitteeMember -> singleP "Selects subject to add new ticket for"
+            singleP -> ServiceRooms "Requests list of rooms to choose from"
+            ServiceRooms -> singleP "Returns list of all rooms"
+            singleP -> peopleModule "Requests list of all teachers"
+            peopleModule -> singleP "Returns list of all teachers"
+            singleP -> schedulingCommitteeMember "Displays form to fill after subject is chosen"
+            schedulingCommitteeMember -> singleP "Fill the form including teacher to teach the ticket and room to hold it"
+            singleP -> ServiceTickets "Sends data requested for ticket creation"
+            ServiceTickets -> ServiceRooms "Request room validation"
+            ServiceRooms -> ServiceTickets "Returns whether the ticket is valid"
+            ServiceTickets -> ServiceReserv "Request overlapping reservations validation"
+            ServiceReserv -> ServiceTickets "Returns whether the ticket does not collide with other resrvations"
+            ServiceTickets -> ticketsDatabase "Retrieves conflicting tickets or add new ticktes if none are found"
+            ticketsDatabase -> ServiceTickets "Returns whether the ticket was created or colliding tickets"
+            ServiceTickets -> singleP "Sends result to display to user"
+            singleP -> schedulingCommitteeMember "Shows whether the creation was successful or indicates where it failed"
 
             autoLayout
         }
