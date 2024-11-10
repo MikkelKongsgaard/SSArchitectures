@@ -261,12 +261,10 @@ workspace {
         
         container schedulingModule {
             include *
-            autoLayout tb 
         }
         
         component singleP {
             include *
-            autoLayout tb
         }
 
         component ServiceSubj {
@@ -275,11 +273,9 @@ workspace {
         }
         component ServiceTickets {
             include *
-            autoLayout tb
         }
         component ServiceReserv {
             include *
-            autoLayout tb
         }
         component ServiceRooms {
             include *
@@ -336,8 +332,6 @@ workspace {
             reservationsDatabase -> ServiceReserv "Returns whether the reservation was made or if there are conflicts"
             ServiceReserv -> singleP "Sends response to display"
             singleP -> teacher "Shows whether the reservation was made successfully, errors or conflicting reservations"
-
-            autoLayout
         }
 
         dynamic schedulingModule {
@@ -355,8 +349,6 @@ workspace {
             ServiceSubj -> subjectsDatabase "Adds new subject to database if validation was successful"
             ServiceSubj -> singleP "Sends response to display to user"
             singleP -> manager "Shows whether the creation was successful or where it failed"
-
-            autoLayout
         }
 
         dynamic schedulingModule {
@@ -384,8 +376,6 @@ workspace {
             ticketsDatabase -> ServiceTickets "Returns whether the ticket was created or colliding tickets"
             ServiceTickets -> singleP "Sends result to display to user"
             singleP -> schedulingCommitteeMember "Shows whether the creation was successful or indicates where it failed"
-
-            autoLayout
         }
 
         dynamic schedulingModule {
@@ -447,3 +437,4 @@ workspace {
         }       
     }
 }
+
