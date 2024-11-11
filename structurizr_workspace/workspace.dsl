@@ -253,6 +253,59 @@ workspace {
         roomAPIHandler -> roomVerificator "Verifies user JWT token"
         reservAPIHandler -> reservVerificator "Verifies user JWT token"
         ticketAPIHandler -> ticketVerificator "Verifies user JWT token"
+
+        productionEnvironment = deploymentEnvironment "Production" {
+            deploymentNode "User Device" {
+                containerInstance singleP
+            }
+
+            deploymentNode "HTTP Server" {
+                containerInstance webapp
+            }
+
+            deploymentNode "Subjects Server" {
+                containerInstance ServiceSubj
+                containerInstance subjectsDatabase
+            }
+
+            deploymentNode "Reservations Server" {
+                containerInstance ServiceReserv
+                containerInstance reservationsDatabase
+            }
+
+            deploymentNode "Schedules Server" {
+                containerInstance ServiceSchedule
+            }
+
+            deploymentNode "Tickets Server" {
+                containerInstance ServiceTickets
+                containerInstance ticketsDatabase
+            }
+
+            deploymentNode "Rooms Server" {
+                containerInstance ServiceRooms
+                containerInstance roomsDatabase
+            }
+        }
+
+        developmentEnvironment = deploymentEnvironment "Development" {
+            deploymentNode "User Device" {
+                containerInstance singleP
+            }
+
+            deploymentNode "Test Server" {
+                containerInstance webapp
+                containerInstance ServiceSubj
+                containerInstance subjectsDatabase
+                containerInstance ServiceReserv
+                containerInstance reservationsDatabase
+                containerInstance ServiceSchedule
+                containerInstance ServiceTickets
+                containerInstance ticketsDatabase
+                containerInstance ServiceRooms
+                containerInstance roomsDatabase
+            }
+        }
     }
 
     views {
@@ -442,6 +495,16 @@ workspace {
 
             autoLayout
         }       
+
+        deployment * productionEnvironment {
+            include *
+            autoLayout
+        }
+
+        deployment * developmentEnvironment {
+            include *
+            autoLayout
+        }
     }
 }
 
