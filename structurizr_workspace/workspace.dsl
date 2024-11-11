@@ -26,21 +26,23 @@ workspace {
                 singleP = container "Single-Page Application" "Provides UI for the users" "JavaScript" "Web Front-End" {
                     singlePRouter = component "Router" "Routes URL paths to pages"
 
-                    singlePLoginPage = component "Login Page" "Allows user login"
+                    group "Pages" {
+                        singlePLoginPage = component "Login Page" "Allows user login"
 
-                    singlePSubjectsPage = component "Subjects Page" "Allows browsing and managing subjects"
-                    singlePCreateSubjectPage = component "Create Subject Page" "Page for creating a subject"
+                        singlePSubjectsPage = component "Subjects Page" "Allows browsing and managing subjects"
+                        singlePCreateSubjectPage = component "Create Subject Page" "Page for creating a subject"
 
-                    singlePTicketsPage = component "Tickets Page" "Allows managing tickets"
-                    singlePCreateTicketPage = component "Create Ticket Page" "Page for creating a ticket"
+                        singlePTicketsPage = component "Tickets Page" "Allows managing tickets"
+                        singlePCreateTicketPage = component "Create Ticket Page" "Page for creating a ticket"
 
-                    singlePReservationsPage = component "Allows managing reservations"
-                    singlePCreateReservationPage = component "Create Reservation Page" "Page for creating a reservation"
+                        singlePReservationsPage = component "Reservations Page" "Allows managing reservations"
+                        singlePCreateReservationPage = component "Create Reservation Page" "Page for creating a reservation"
 
-                    singlePSchedulesPage = component "Schedules Page" "Allows viewing schedules"
-                    singlePStudentSchedulePage = component "Student Schedule Page" "Page for viewing student schedule"
-                    singlePTeacherSchedulePage = component "Teacher Schedule Page" "Page for viewing teacher schedule"
-                    singlePSubjectSchedulePage = component "Subject Schedule Page" "Page for viewing subject schedule"
+                        singlePSchedulesPage = component "Schedules Page" "Allows viewing schedules"
+                        singlePStudentSchedulePage = component "Student Schedule Page" "Page for viewing student schedule"
+                        singlePTeacherSchedulePage = component "Teacher Schedule Page" "Page for viewing teacher schedule"
+                        singlePSubjectSchedulePage = component "Subject Schedule Page" "Page for viewing subject schedule"
+                    }
 
                     singlePMenuComponent = component "Menu Component" "Component for website navigation"
                     singlePScheduleTableComponent = component "Schedule Table Component" "Component visualizing a schedule"
@@ -265,6 +267,11 @@ workspace {
         
         component singleP {
             include *
+
+            exclude "ServiceReserv -> *"
+            exclude "ServiceSchedule -> *"
+            exclude "ServiceTickets -> *"
+            exclude "ServiceSubj -> *"
         }
 
         component ServiceSubj {
