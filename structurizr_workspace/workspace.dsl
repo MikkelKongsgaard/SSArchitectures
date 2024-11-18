@@ -106,6 +106,9 @@ workspace {
                     }
                 }
             }
+
+            !docs docs
+
         }
 
         webapp -> singleP "Delivers the Single-page to user"
@@ -314,7 +317,7 @@ workspace {
             autoLayout tb 
         }
         
-        container schedulingModule {
+        container schedulingModule "L2_Diagram" {
             include *
         }
         
