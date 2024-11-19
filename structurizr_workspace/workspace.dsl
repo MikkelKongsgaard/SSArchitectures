@@ -312,7 +312,7 @@ workspace {
     }
 
     views {
-        systemContext schedulingModule {
+        systemContext schedulingModule "L1_Diagram" {
             include *
             autoLayout tb 
         }

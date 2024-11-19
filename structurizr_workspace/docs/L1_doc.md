@@ -1,5 +1,5 @@
 # L1 Documentation - System Context
-
+![](embed:L1_Diagram)
 ## Overview
 
 The L1 diagram provides a high-level overview of the system and how the different modules interact with each other. It shows the interactions between the Scheduling Module and other external systems such as the People Module, Enrollment Module, and Login Module.
